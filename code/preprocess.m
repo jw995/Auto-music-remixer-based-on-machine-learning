@@ -3,8 +3,8 @@ clear;
 
 close all hidden;
 
-[y,Fs] = audioread('../data/selected/attention.wav');
-[y1,Fs1] = audioread('../data/selected/attention1.wav');
+[y,Fs] = audioread('../data/selected/org.wav');
+[y1,Fs1] = audioread('../data/selected/down_vol.wav');
 m=size(y,1);
 m1=size(y1,1);
 
@@ -15,15 +15,22 @@ diff_y=y-y1;
 
 y=downsample(y,4);
 y=[smooth(y(:,1)) smooth(y(:,2))];
+y=y/max(y(:));
 y1=downsample(y1,4);
 y1=[smooth(y1(:,1)) smooth(y1(:,2))];
+y1=y1/max(y1(:));
 
 
-audiowrite('../result/1.wav',y,Fs/4);
+diff=y-y1;
 
-% save('../result/attention.mat','y','y1')
+
+
+audiowrite('../result/1.wav',diff,Fs/4);
+
+%save('../result/attention.mat','y')
 
 % cutting the matrix into pieces 
+
 n=10;
    unit=int32(size(y,1)/n);
 for i=1:n

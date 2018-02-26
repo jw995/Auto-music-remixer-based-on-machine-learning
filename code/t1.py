@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 
 
 BATCH_START = 0
-TIME_STEPS = 200
-BATCH_SIZE = 1090
+TIME_STEPS = 20
+BATCH_SIZE = 10900
 INPUT_SIZE = 1
 OUTPUT_SIZE = 1
 CELL_SIZE = 10
@@ -19,17 +19,20 @@ LR = 0.01
 # load the dataset
 train=[]
 res=[]
+test=[]
 data = open('../data/attention_1.csv','r')
 for item in data:
     splitline=item.split(',')
     temp=float(splitline[0])
     train.append(temp)
 train=np.array(train)
+train=train/np.linalg.norm(train)
 
 resize1=int(np.size(train)/1000);
 train=train[:resize1*1000]
 print(np.size(train))
-trains = train.reshape((BATCH_SIZE, TIME_STEPS)) 
+trains = train.reshape((BATCH_SIZE, TIME_STEPS))
+
 
 result = open('../data/attention1_1.csv', 'r')
 for item in result:
@@ -37,10 +40,12 @@ for item in result:
     temp=float(splitline[0])
     res.append(temp)
 res=np.array(res)
+res=res/np.linalg.norm(res)
 
 res=res[:resize1*1000]
 print(np.size(res))
-ress = res.reshape((BATCH_SIZE, TIME_STEPS)) 
+ress = res.reshape((BATCH_SIZE, TIME_STEPS))
+
 
 def get_batch():
     global BATCH_START, TIME_STEPS
@@ -49,8 +54,8 @@ def get_batch():
     seq = trains
     res = ress
     BATCH_START += TIME_STEPS
-    # plt.plot(xs[0, :], res[0, :], 'r', xs[0, :], seq[0, :], 'b--')
-    # plt.show()
+    plt.plot(xs[0, :], res[0, :], 'r', xs[0, :], seq[0, :], 'b--')
+    plt.show()
     # returned seq, res and xs: shape (batch, step, input)
     return [seq[:, :, np.newaxis], res[:, :, np.newaxis],xs]
 
@@ -150,7 +155,7 @@ if __name__ == '__main__':
 
     plt.ion()
     plt.show()
-    for i in range(200):
+    for i in range(100):
         seq, res, xs = get_batch()
         if i == 0:
             feed_dict = {
@@ -179,3 +184,7 @@ if __name__ == '__main__':
             print('cost: ', round(cost, 4))
             result = sess.run(merged, feed_dict)
             writer.add_summary(result, i)
+    pred=pred*np.linalg.norm(res)
+    np.savetxt("output.txt",pred)
+
+    
