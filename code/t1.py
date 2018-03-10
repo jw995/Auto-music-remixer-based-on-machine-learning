@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 
 
 BATCH_START = 0
-TIME_STEPS = 20
-BATCH_SIZE = 10900
+TIME_STEPS = 200
+BATCH_SIZE = 1090
 INPUT_SIZE = 1
 OUTPUT_SIZE = 1
 CELL_SIZE = 10
@@ -45,7 +45,8 @@ res=res/np.linalg.norm(res)
 res=res[:resize1*1000]
 print(np.size(res))
 ress = res.reshape((BATCH_SIZE, TIME_STEPS))
-
+
+
 
 def get_batch():
     global BATCH_START, TIME_STEPS
@@ -184,7 +185,7 @@ if __name__ == '__main__':
             print('cost: ', round(cost, 4))
             result = sess.run(merged, feed_dict)
             writer.add_summary(result, i)
-    pred=pred*np.linalg.norm(res)
+    #pred=pred*np.linalg.norm(res)
     np.savetxt("output.txt",pred)
 
     
