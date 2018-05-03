@@ -128,7 +128,11 @@ for i in range(500):
     x = librosa.istft(S)
     p = np.angle(librosa.stft(x, N_FFT))
 
-OUTPUT_FILENAME = 'bk_and_fg.wav'
+OUTPUT_FILENAME = 'outputs/test1.wav'
 librosa.output.write_wav(OUTPUT_FILENAME, x, fs)
-print('All done!')
+print('wav file generated!')
+
+
+# add filter to refine the sound quality
+
 

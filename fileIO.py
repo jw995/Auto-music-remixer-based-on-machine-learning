@@ -51,7 +51,7 @@ def plot_image_big(image):
     image = image.astype(np.uint8)
 
     # Convert to a PIL-image and display it.
-    display(PIL.Image.fromarray(image))
+    # display(PIL.Image.fromarray(image))
 
 
 # plot a real size image
